@@ -1,0 +1,36 @@
+graph TD
+    A[使用者] --> B(API Gateway/Nginx)
+    B --> C[Laravel App]
+    C --> D[PostgreSQL/BigQuery/Elasticsearch]
+    C --> E[RabbitMQ]
+    E --> F[Background Workers]
+
+    subgraph CI/CD Workflow
+        G(Git Push) --> H(GitHub Actions)
+        H --> I(Run Tests & Linting)
+        I -- 成功 --> J(Build Docker Image)
+        J --> K(Push to Docker Registry)
+    end
+    H --> L(Sentry/Log)
+
+    style A fill:#f9f,stroke:#333,stroke-width:2px
+    style B fill:#bbf,stroke:#333,stroke-width:2px
+    style C fill:#ccf,stroke:#333,stroke-width:2px
+    style D fill:#ddf,stroke:#333,stroke-width:2px
+    style E fill:#eef,stroke:#333,stroke-width:2px
+    style F fill:#ffb,stroke:#333,stroke-width:2px
+    style G fill:#f99,stroke:#333,stroke-width:2px
+    style H fill:#9f9,stroke:#333,stroke-width:2px
+    style I fill:#99f,stroke:#333,stroke-width:2px
+    style J fill:#f99,stroke:#333,stroke-width:2px
+    style K fill:#ff9,stroke:#333,stroke-width:2px
+    style L fill:#f9c,stroke:#333,stroke-width:2px
+
+## 如何在 GitHub Pages 顯示
+在你的 `README.md` 中，使用以下語法：
+\`\`\`
+<div align="center">
+  <img src="https://mermaid.ink/img/pajx" alt="Architecture Diagram" />
+</div>
+\`\`\`
+將 URL 替換為你的 Mermaid 圖表轉換後的圖片網址。
