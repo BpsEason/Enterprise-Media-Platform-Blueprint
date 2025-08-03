@@ -45,21 +45,29 @@
 
 ```plaintext
 Enterprise-Media-Platform-Blueprint/
-├── app/
-│   ├── Application/              # 應用層：業務邏輯協調
-│   ├── Domain/                   # 領域層：核心業務邏輯與實體
-│   ├── Infrastructure/           # 基礎設施層：資料庫、外部服務實現
-│   ├── Http/                     # 展示層：控制器與中間件
-│   ├── ValueObjects/             # 值物件：封裝不可變數據
-│   └── Console/Commands/         # 自訂 Artisan 命令
-├── docs/                         # 文件：架構圖、OpenAPI、資料織網
-├── docker/                       # Docker 配置：Nginx、PHP-FPM
-├── k8s/                          # Kubernetes 部署配置
-├── .github/workflows/            # CI/CD 流程
-├── .env.example                  # 環境變數範例
-├── composer.json                 # 依賴管理
-├── phpstan.neon                  # 靜態分析配置
-├── .php-cs-fixer.dist.php        # 程式碼格式化配置
+├── src/
+│   ├── app/
+│   │   ├── Application/              # 應用層：業務邏輯協調
+│   │   ├── Domain/                   # 領域層：核心業務邏輯與實體
+│   │   ├── Infrastructure/           # 基礎設施層：資料庫、外部服務實現
+│   │   ├── Http/                     # 展示層：控制器與中間件
+│   │   ├── ValueObjects/             # 值物件：封裝不可變數據
+│   │   └── Console/Commands/         # 自訂 Artisan 命令
+│   ├── bootstrap/                    # Laravel 框架啟動文件
+│   ├── config/                       # 框架配置
+│   ├── database/                     # 資料庫：遷移、填充、工廠
+│   ├── public/                       # 靜態資源與入口
+│   ├── routes/                       # 路由定義
+│   └── storage/                      # 儲存：快取、日誌、檔案
+├── tests/                            # 測試文件
+├── docs/                             # 文件：架構圖、OpenAPI、資料織網
+├── docker/                           # Docker 配置：Nginx、PHP-FPM
+├── k8s/                              # Kubernetes 部署配置
+├── .github/workflows/                # CI/CD 流程
+├── .env.example                      # 環境變數範例
+├── composer.json                     # 依賴管理
+├── docker-compose.yml                # Docker Compose 配置
+├── Dockerfile                        # PHP-FPM 映像檔
 └── README.md
 ```
 
@@ -67,17 +75,17 @@ Enterprise-Media-Platform-Blueprint/
 
 ## 快速上手
 
-本倉庫僅提供關鍵程式碼檔案與配置。請遵循以下步驟，將其整合到您的 Laravel 專案中。
+本專案提供的是核心程式碼，基本的 Laravel 框架檔案需要您自行安裝。請遵循以下步驟，將本專案的核心檔案整合到您的 Laravel 專案中。
 
 1.  **建立新的 Laravel 專案**
 
     ```bash
-    composer create-project laravel/laravel my-project
-    cd my-project
+    composer create-project laravel/laravel Enterprise-Media-Platform-Blueprint
+    cd Enterprise-Media-Platform-Blueprint
     ```
 
 2.  **複製核心檔案**
-    將本倉庫中的 `app/`、`config/`、`database/`、`routes/` 等核心目錄複製到您新建立的專案根目錄。
+    將本專案中的 `src/`、`docker/`、`k8s/`、`.github/`、`docs/`、`composer.json` 等核心目錄與檔案複製到您新建立的專案根目錄。
 
 3.  **安裝依賴與設定**
 
