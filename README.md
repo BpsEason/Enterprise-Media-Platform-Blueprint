@@ -143,6 +143,30 @@ Enterprise-Media-Platform-Blueprint/
 
 -----
 
+## 核心設計理念問答
+
+### Q：為何此專案採用 Domain-Driven Design (DDD) 與 Clean Architecture？
+
+**A：** 採用 DDD 是為了將業務領域的複雜性與程式碼結構緊密結合，使系統更易於理解與維護。而 Clean Architecture 則確保系統的核心業務邏輯獨立於外部框架（如 Laravel）與基礎設施（如資料庫）。這使得專案的業務核心不受技術變更的影響，同時提高了可測試性與靈活性。
+
+### Q：專案中的 `IArticleRepository` 介面有什麼作用？
+
+**A：** `IArticleRepository` 是一個抽象的介面，定義了對文章資料的操作方法（如 `save`、`findById`）。透過在應用層依賴這個介面而非具體的實現（例如 `PostgresArticleRepository` 或 `BigQueryArticleRepository`），我們實現了儲存層的解耦。這意味著您可以輕鬆切換不同的資料庫後端，而無需修改核心業務邏輯，提供了極佳的擴展性。
+
+### Q：專案如何應對高併發情境？
+
+**A：** 本專案透過多種機制來應對高併發：
+
+  - **API Gateway**：使用 Nginx 作為輕量級 API Gateway 處理大量請求。
+  - **異步處理**：透過 RabbitMQ 佇列實現事件驅動架構，將耗時的任務（例如日誌記錄、外部通知）從同步請求中分離，提升 API 響應速度。
+  - **水平擴展**：提供 Kubernetes HPA (Horizontal Pod Autoscaling) 配置，使應用服務能夠根據負載自動擴展，確保高可用性。
+
+### Q：為什麼選擇使用 RabbitMQ 進行非同步處理？
+
+**A：** RabbitMQ 作為一個成熟的訊息佇列系統，可以有效地解耦服務之間的依賴，並實現非同步的事件處理。例如，當一篇文章被創建時，可以發送一個 `ArticleCreated` 事件到佇列，其他服務（如搜尋索引服務或通知服務）可以訂閱這個事件進行後續處理，而不會阻塞原始的 API 請求。
+
+-----
+
 ## 關鍵代碼展示（含中文註解）
 
 以下選取專案中的核心檔案，展示其設計意圖並加入中文註解，突顯 DDD、Clean Architecture 與可觀測性的實現。
